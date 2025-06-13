@@ -1,0 +1,149 @@
+ <div class="card mb-2" style="min-height: 780px;">
+  
+  <main class="col-md-9 col-lg-10 mx-auto px-md-9">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Tableau de Bord de l'Hôtel</h1>
+      </div>
+
+ <div class="card mb-4" [formGroup]="filterForm">
+  <div class="card-body row g-2">
+    <div class="col-md-4">
+      <label>Date de début</label>
+      <input type="datetime-local" class="form-control" formControlName="startDate"  >
+    </div>
+    <div class="col-md-4">
+      <label>Date de fin</label>
+      <input type="datetime-local" class="form-control" formControlName="endDate"  >
+    </div>
+    <div class="col-md-4 align-self-end">
+      <button class="btn btn-primary w-100" (click)="loadAllsData()">Rechercher</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div *ngIf="totalEntrees !== null" class="alert alert-success">
+  <strong>Total des entrées</strong> du {{ startDate }} au {{ endDate }} : <b>{{ totalEntrees }} FCFA</b>
+</div>  -->
+
+<!-- DEBUT  -->
+      <div class="row">
+          <div class="col-md-4">
+            <div class="card text-white bg-primary mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Revenus Reservation</h5>
+                <p class="card-text">Total: {{ totalEntreeReservation }}</p>  <!-- Afficher le nombre de chambres disponibles -->
+                
+              </div>
+            </div>
+          </div>
+           <div class="col-md-4">
+            <div class="card text-white bg-warning mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Revenus Restaurant</h5>
+                <p class="card-text">Total: {{  totalEntreeResto}}</p>  <!-- Afficher le nombre de chambres disponibles -->
+               
+              </div>
+            </div>
+          </div>
+
+          
+        
+          <div class="col-md-4">
+            <div class="card text-white bg-success mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Solde en Caisse</h5>
+                <p class="card-text">{{ soldeReel }} FCFA</p> 
+              </div>
+            </div>
+          </div>
+        
+        </div>
+ <!-- FIN  -->
+        
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card text-white bg-primary mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Total Entrée</h5>
+                      <p class="card-text"> {{ totalEntrees }} FCFA</p>
+              </div>
+            </div>
+          </div>
+           <div class="col-md-4">
+            <div class="card text-white bg-warning mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Dépenses</h5>
+                <p class="card-text">Total : {{ totalDepenses }}</p>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col-md-4">
+            <div class="card text-white bg-success mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Benefice</h5>
+                <p class="card-text"> {{ benefice }} </p>  <!-- Afficher le nombre de réservations effectuées aujourd'hui -->
+              </div>
+            </div>
+          </div>
+        
+          
+        </div>
+
+
+        
+<!-- DEBUT  -->
+      <div class="row">
+          <div class="col-md-6">
+            <div class="card text-white bg-primary mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Chambres disponibles</h5>
+                <p class="card-text">Disponibles : {{ nombreChambresDispo }}</p>  <!-- Afficher le nombre de chambres disponibles -->
+                <p class="card-text">Total : {{ nombreChambresTotal }}</p>
+              </div>
+            </div>
+          </div>
+           <div class="col-md-6">
+            <div class="card text-white bg-warning mb-4">
+              <div class="card-body">
+                <h5 class="card-title">Salles disponibles</h5>
+                <p class="card-text">Disponibles : {{  nombreSallesDispo}}</p>  <!-- Afficher le nombre de chambres disponibles -->
+                <p class="card-text">Total : {{ nombreSalles }}</p>
+              </div>
+            </div>
+          </div>
+
+        
+        </div>
+ <!-- FIN  -->
+        
+<!-- CHARTJS  
+        <div class="row">
+         <div class="col-md-6">  
+            <div class="chart-container">
+               <canvas baseChart
+                [data]="barChartData"
+                [options]="barChartOptions"
+                [type]="barChartType">
+               </canvas>
+               <canvas baseChart
+                [data]="lineChartData"
+                [type]="lineChartType">
+              </canvas>
+           </div>
+      </div>
+
+      <div class="col-md-6">  
+            <div class="chart-container">
+             <canvas baseChart
+             [data]="pieChartData"
+             [type]="pieChartType">
+             </canvas>
+            </div>
+      </div>
+  </div>
+  -->
+</main>
+</div>

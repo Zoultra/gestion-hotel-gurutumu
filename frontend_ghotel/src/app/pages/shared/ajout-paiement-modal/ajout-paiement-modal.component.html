@@ -1,0 +1,43 @@
+<div class="modal" [ngClass]="{ 'show': isVisible }" tabindex="-1" style="display: block;" *ngIf="isVisible">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="paiementForm" (ngSubmit)="soumettre()">
+        <div class="modal-header">
+          <h5 class="modal-title">Ajouter un paiement</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label>Montant</label>
+            <input type="number" class="form-control" formControlName="montant">
+          </div>
+           <div class="mb-3">
+            <label>Mode de paiement</label>
+            
+
+             <label class="form-label">Type</label>
+              <select class="form-select" formControlName="modePaiement">
+                <option value="ESPECES">ESPECES</option>
+                <option value="CARTE_BANCAIRE">CARTE BANCAIRE</option>
+                 <option value="MOBILE_MONEY">MOBILE MONEY</option>
+                  <option value="VIREMENT">VIREMENT</option>
+              </select>
+
+          </div>
+          <div class="mb-3">
+            <label>Date de paiement</label>
+            <input type="date" class="form-control" formControlName="datePaiement">
+          </div>
+          <div class="mb-3">
+            <label>Commentaire</label>
+            <textarea class="form-control" formControlName="commentaire"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" [disabled]="paiementForm.invalid">Valider</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

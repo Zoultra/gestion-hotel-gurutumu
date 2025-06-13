@@ -1,0 +1,123 @@
+
+  <div class="row m-3">
+    <div class="container my-container">
+      <div class="card w-100 mx-auto shadow-lg rounded">
+  
+        <div class="card-header text-center bg-primary text-white">
+            <h3 class="m-0">
+                {{ isEditMode ? 'Modification du client' : 'Enregistrement du client' }}
+              </h3>
+        </div>
+  
+        <form   (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-2">
+  
+              <!-- Nom -->
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="text" 
+                    id="nom" 
+                    class="form-control" 
+                  
+                    [(ngModel)]="client.nom" name="nom"
+                    required 
+                    placeholder="Nom">
+                  <label for="nom">Nom</label>
+                </div>
+              </div>
+  
+             
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="text" 
+                    id="prenom" 
+                    class="form-control" 
+                   
+                    [(ngModel)]="client.prenom" name="prenom"
+                    required 
+                    placeholder="Prénom">
+                  <label for="prenom">Prénom</label>
+                </div>
+              </div>
+  
+              <!-- Email -->
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="tel" 
+                    id="telephone" 
+                    class="form-control" 
+                    
+                    [(ngModel)]="client.telephone" name="telephone"
+                    required 
+                    placeholder="telephone">
+                  <label for="telephone">Téléphone</label>
+                </div>
+              </div>
+  
+              
+   <!-- Email -->
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="email" 
+                    id="email" 
+                    class="form-control" 
+                   
+                    [(ngModel)]="client.email" name="email"
+                    required 
+                    placeholder="Email">
+                  <label for="email">Email</label>
+                </div>
+              </div>
+              <!-- Email -->
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="text" 
+                    id="adresse" 
+                    class="form-control" 
+                   
+                    [(ngModel)]="client.adresse" name="adresse"
+                    required 
+                    placeholder="adresse">
+                  <label for="adresse">Adresse</label>
+                </div>
+              </div>
+              <!-- password -->
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="text" 
+                    id="observation" 
+                    class="form-control" 
+                   
+                    [(ngModel)]="client.observation" name="observation"
+                    required 
+                    placeholder="Observations">
+                  <label for="observation">Observations</label>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Boutons -->
+          <div class="card-footer text-center bg-light">
+            <button (click)="goToClientList()" class="btn btn-danger px-4">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> Retour
+            </button>
+            <button type="submit" class="btn btn-success px-4 m-3">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i> 
+                {{ isEditMode ? 'Modifier' : 'Enrégistrer' }}
+              </button>
+          </div>
+        </form>
+  
+      </div>
+    </div>
+  </div>
+  
+  

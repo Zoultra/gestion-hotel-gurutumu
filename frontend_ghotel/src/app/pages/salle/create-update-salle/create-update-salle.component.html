@@ -1,0 +1,142 @@
+<div class="row m-3">
+    <div class="container my-container">
+      <div class="card w-100 mx-auto shadow-lg rounded">
+  
+        <div class="card-header text-center bg-primary text-white">
+          <h3 class="m-0">
+            {{ isEditMode ? 'Modification de la salle' : 'Enregistrement de la salle' }}
+          </h3>
+        </div>
+  
+        <form (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-2">
+  
+              <!-- Numéro de salle -->
+              <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    id="numero"
+                    class="form-control"
+                    [(ngModel)]="salle.numero" name="numero"
+                    required
+                    placeholder="Numéro">
+                  <label for="numero">Numéro de salle</label>
+                </div>
+              </div>
+
+               <!-- Nom de salle 
+               <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    id="nom"
+                    class="form-control"
+                    [(ngModel)]="salle.nom" name="nom"
+                    required
+                    placeholder="nom">
+                  <label for="nom">Nom de la salle</label>
+                </div>
+              </div>
+-->
+              <!-- Tarif de salle -->
+              <div class="col">
+                <div class="form-floating">
+                  <input
+                  type="number"
+                    id="tarif"
+                    class="form-control"
+                    [(ngModel)]="salle.tarif" name="tarif"
+                    required
+                    placeholder="tarif">
+                  <label for="tarif">Tarif de la salle</label>
+                </div>
+              </div>
+  
+              <!-- Type de salle -->
+              <div class="col">
+                <div class="form-floating">
+                  <select
+                    id="type"
+                    class="form-select"
+                    [(ngModel)]="salle.type" name="type"
+                    required>
+                    <option value="" disabled selected>Sélectionnez un type</option>
+                    <option value="CONFERENCE">Conférence</option>
+                    <option value="REUNION">Réunion</option>
+                    <option value="FORMATION">Formation</option>
+                    <option value="BANQUET">Banquet</option>
+                    <option value="POLYVALENTE">Polyvalente</option>
+                  </select>
+                  <label for="type">Type de salle</label>
+                </div>
+              </div>
+  
+              <!-- Capacité -->
+              <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="number"
+                    id="capacite"
+                    class="form-control"
+                    [(ngModel)]="salle.capaciteMax" name="capacite"
+                    required
+                    placeholder="Capacité">
+                  <label for="capacite">Capacité</label>
+                </div>
+              </div>
+  
+              <!-- État de disponibilité -->
+              <div class="col">
+                <div class="form-floating">
+                  <select
+                    id="statut"
+                    class="form-select"
+                    [(ngModel)]="salle.statut" name="statut"
+                    required>
+                    <option value="" disabled selected>Sélectionnez l'état actuel</option>
+                    <option value="DISPONIBLE">Disponible</option>
+                    
+                    <option value="EN_MAINTENANCE">En maintenance</option>
+                    
+                    <option value="HORS_SERVICE">Hors Service</option>
+                  </select>
+                  <label for="statut">Disponibilité</label>
+                </div>
+              </div>
+  
+              <!-- Équipements -->
+              <div class="col-12">
+                <div class="form-floating">
+                  <textarea
+                    id="equipements"
+                    class="form-control"
+                    style="height: 100px"
+                    [(ngModel)]="salle.equipements" name="equipements"
+                    placeholder="Équipements disponibles"></textarea>
+                  <label for="equipements">Équipements</label>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+          <!-- Boutons -->
+          <div class="card-footer text-center bg-light">
+            <button (click)="goToSalleList()" class="btn btn-danger px-4">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> Retour
+            </button>
+            <button type="submit" class="btn btn-success px-4 m-3">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              {{ isEditMode ? 'Modifier' : 'Enrégistrer' }}
+            </button>
+          </div>
+        </form>
+  
+      </div>
+    </div>
+  </div>
+   
+   
+    

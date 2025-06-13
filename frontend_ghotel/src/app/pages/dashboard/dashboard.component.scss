@@ -1,0 +1,42 @@
+.main-container {
+    margin: 20px;
+}
+
+.min-height-600 {
+    min-height: 600px;
+}
+
+.no-flex-wrap {
+    flex-wrap: inherit;
+}
+
+
+  .main {
+    margin-left: 0px;
+    padding: 20px;
+  }
+  
+  /* Sur mobile, le menu est caché */
+  @media (max-width: 768px) {
+    app-sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      height: 100%;
+      background: #343a40;
+      transition: left 0.3s ease-in-out;
+      z-index: 1050;
+    }
+  }
+
+  .chart-container {
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    margin: 20px auto;
+  }
+  
+.chart-container canvas {
+    width: 100% ;
+    height: 100% 
+  }

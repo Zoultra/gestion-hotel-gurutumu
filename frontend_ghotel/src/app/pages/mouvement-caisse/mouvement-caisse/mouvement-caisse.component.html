@@ -1,0 +1,125 @@
+ <div class="container mt-4">
+  <!-- En-tête -->
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary mb-2">
+      <i class="fas fa-calendar-day me-2"></i> Récapitulatif Journalier (Plage de dates)
+    </h2>
+    <button type="button" (click)="chargerRecap()" class="btn btn-outline-secondary">
+      <i class="fas fa-rotate me-1"></i> Actualiser
+    </button>
+  </div>
+
+  <!-- Filtres -->
+  <div class="row g-3 align-items-end mb-4">
+    <div class="col-md-3">
+      <label class="form-label">Nombre à afficher</label>
+      <select class="form-select" (change)="onTableSizeChange($event)">
+        <option *ngFor="let size of tableSizes">{{ size }}</option>
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label">Date début</label>
+      <input type="date" class="form-control" [(ngModel)]="dateDebut" />
+    </div>
+    <div class="col-md-3">
+      <label class="form-label">Date fin</label>
+      <input type="date" class="form-control" [(ngModel)]="dateFin" />
+    </div>
+
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" (click)="chargerRecap()">
+        <i class="fa fa-search me-1"></i> Rechercher
+      </button>
+    </div>
+  </div>
+
+  <!-- Liste des récapitulatifs -->
+   <div class="d-flex mt-4 m-2">
+    <button class="btn btn-success" (click)="printMultiRecap(recapList)">
+        <i class="fa fa-print me-1"></i> Imprimer (PDF)
+      </button>
+   </div>
+  <div *ngFor="let recap of recapList" class="mb-5 border-top pt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="text-secondary fw-bold">
+        <i class="fas fa-calendar-alt me-2"></i> {{ recap.dateOuverture| date: 'dd/MM/yyyy' }}  {{ recap.heureOuverture }} Au {{ recap.dateFermeture| date: 'dd/MM/yyyy' }}  {{ recap.heureFermeture }}
+      </h4>
+     
+    </div>
+
+    <!-- Résumé -->
+    <div class="row text-center mb-4">
+      <div class="col-md-4">
+        <div class="bg-light p-3 rounded shadow-sm">
+          <h6 class="text-muted">Solde initial</h6>
+          <h5 class="text-primary fw-bold">{{ recap.soldeDepart }} FCFA</h5>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bg-light p-3 rounded shadow-sm">
+          <h6 class="text-muted">Total Entrées</h6>
+          <h5 class="text-success fw-bold">{{ recap.totalEntree }} FCFA</h5>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="bg-light p-3 rounded shadow-sm">
+          <h6 class="text-muted">Total Sorties</h6>
+          <h5 class="text-danger fw-bold">{{ recap.totalSortie }} FCFA</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tableau des mouvements -->
+    <div class="table-responsive">
+      <table class="table table-hover table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Montant</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mouvement of recap.mouvements">
+            <td>{{ mouvement.description }}</td>
+            <td>
+              <span [ngClass]="{
+                'badge bg-success': mouvement.type === 'ENTREE',
+                'badge bg-danger': mouvement.type === 'SORTIE'
+              }">{{ mouvement.type }}</span>
+            </td>
+            <td class="fw-bold">{{ mouvement.montant }} FCFA</td>
+            <td>{{ mouvement.date | date:'dd/MM/yyyy' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Soldes finaux -->
+    <div class="row text-center mt-4">
+      <div class="col-md-6">
+        <div class="bg-light p-3 rounded shadow-sm">
+          <h6 class="text-muted">Solde final théorique</h6>
+          <h5 class="fw-bold">{{ recap.soldeFinalTheorique }} FCFA</h5>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="bg-light p-3 rounded shadow-sm">
+          <h6 class="text-muted">Solde final réel</h6>
+          <h5 class="fw-bold text-dark">{{ recap.soldeFinal }} FCFA</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="d-flex justify-content-end mt-4">
+    <pagination-controls
+      previousLabel="Précédent"
+      nextLabel="Suivant"
+      (pageChange)="onTableDataChange($event)">
+    </pagination-controls>
+  </div>
+</div>

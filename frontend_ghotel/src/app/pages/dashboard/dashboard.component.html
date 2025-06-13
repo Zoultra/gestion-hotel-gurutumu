@@ -1,0 +1,36 @@
+<div class="main-container">
+    <div class="row min-height-400 no-flex-wrap">
+  
+        <div class="card col-md-2 me-2">
+            <div class="col">
+                <div class="card mt-3 mb-2 text-center border-none">
+                    <h4>ADMIN <br> G-HOTEL</h4>
+                </div>
+
+                <div>
+                   <app-menu></app-menu>
+                </div>
+            </div>
+        </div>
+        <div class="card col-md-10 ps-0 pe-0 background-grey border-none">
+         
+            <div class="col ps-0 pe-0 d-flex flex-column justify-content-between">
+                <div class="card mb-2 p-2 min-height-80">
+                    <app-header></app-header>
+                </div>
+
+                       <div class="card mb-2" style="min-height: 780px;">
+                            <router-outlet></router-outlet>
+                       </div>
+
+                <div class="card min-height-80 text-center">
+                    Copyright &copy; SmarTech Mali
+                </div>
+                
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

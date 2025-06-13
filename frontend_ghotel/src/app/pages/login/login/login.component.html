@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card p-4 shadow-lg rounded-4" style="width: 400px;">
+      <div class="card-body text-center">
+        <!-- Logo & Nom de l'application -->
+        <h2 class="fw-bold text-primary">
+          <i class="fa fa-recycle"></i> G-HOTEL
+        </h2>
+        <p class="text-muted">Optimisation de la gestion des d'Hotel</p>
+  
+        <h3 class="mb-4">🔐 Connexion </h3>
+  
+        <form (submit)="onLogin()">
+          <!-- Téléphone -->
+          <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fa fa-user"></i></span>
+            <input type="text" class="form-control" placeholder="Nom d'utlisateur" [(ngModel)]="username"   name="username" required />
+          </div>
+  
+          <!-- Mot de passe -->
+          <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+            <input [type]="passwordVisible ? 'text' : 'password'" class="form-control" placeholder="Mot de passe" [(ngModel)]="password" name="password" required />
+          </div>
+  
+          <!-- Case à cocher pour afficher le mot de passe -->
+          <div class="form-check text-start mb-3">
+            <input type="checkbox" class="form-check-input" id="showPassword" (change)="togglePasswordVisibility()" />
+            <label for="showPassword" class="form-check-label">Afficher le mot de passe</label>
+          </div>
+  
+          <!-- Message d'erreur -->
+          <p *ngIf="errorMessage && !loading" class="text-danger text-center mt-2">
+            <i class="fa fa-exclamation-circle"></i> {{ errorMessage }}
+          </p>
+  
+          <!-- Bouton de connexion -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg fw-bold" [disabled]="loading">
+              <span *ngIf="loading">
+                <i class="fa fa-spinner fa-spin"></i> Connexion...
+              </span>
+              <span *ngIf="!loading">
+                <i class="fa fa-sign-in-alt"></i> Se connecter
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

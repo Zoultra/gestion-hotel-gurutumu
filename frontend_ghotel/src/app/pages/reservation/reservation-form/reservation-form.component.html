@@ -1,0 +1,151 @@
+ 
+  <div class="row m-3">
+  <div class="col">
+  <div class="row align-items-center justify-content-between my-3">
+      <div class="col-md-12">
+        <h2 class="fw-bold text-primary">
+          <i class="fa fa-calendar-check me-2"></i> Formulaire de reservation: Facturation
+        </h2>
+      </div>
+    </div>
+ <form [formGroup]="reservationForm" (ngSubmit)="submitReservation()" class="p-3 border rounded">
+  <!-- Section Dates et Client -->
+  <div class="row mb-3">
+    <!-- Date Début -->
+    <div class="col-md-4">
+      <label class="form-label">Date début</label>
+      <input type="date" class="form-control" formControlName="dateDebut">
+    </div>
+
+    <!-- Date Fin -->
+    <div class="col-md-4">
+      <label class="form-label">Date fin</label>
+      <input type="date" class="form-control" formControlName="dateFin">
+    </div>
+
+    <!-- Client -->
+    <div class="col-md-4">
+      <label class="form-label">Client</label>
+      <select class="form-select" formControlName="client_id">
+        <option [value]="null">Sélectionner un client</option>
+        <option *ngFor="let c of clients" [value]="c.id">
+          {{ c.nom }} {{ c.prenom }}
+        </option>
+      </select>
+      
+    </div>
+  </div>
+
+  <!-- Section Lignes de réservation -->
+  <h5 class="mt-3 mb-3">Lignes de réservation</h5>
+  <div formArrayName="lignes">
+  <div *ngFor="let ligne of lignes.controls; let i = index" [formGroupName]="i" class="border rounded p-3 mb-3 row align-items-end">
+
+    <!-- Type -->
+    <div class="col-md-2">
+      <label class="form-label">Type</label>
+      <select class="form-select" formControlName="type">
+          <option value="">Sélectionner un élément</option>
+        <option value="CHAMBRE">Chambre</option>
+        <option value="SALLE">Salle</option>
+      </select>
+    </div>
+
+    <!-- Objet (Chambre ou Salle) -->
+    <div class="col-md-3">
+      <label class="form-label">Chambre ou Salle</label>
+      <select class="form-select" formControlName="idObjet">
+        <option value="">Sélectionner un élément</option>
+        <ng-container *ngIf="ligne.get('type')?.value === 'CHAMBRE'">
+          <option *ngFor="let chambre of chambres" [value]="chambre.id">
+            {{ chambre.numero }} - {{ chambre.etat }} - {{ chambre.statut }}
+          </option>
+        </ng-container>
+        <ng-container *ngIf="ligne.get('type')?.value === 'SALLE'">
+          <option *ngFor="let salle of salles" [value]="salle.id">
+            {{ salle.numero }} - {{ salle.etat }} - {{ salle.statut }}
+          </option>
+        </ng-container>
+      </select>
+    </div>
+
+    <!-- Prix unitaire -->
+    <div class="col-md-2">
+      <label class="form-label">Prix unitaire</label>
+      <input type="text" class="form-control" formControlName="prixUnitaire" readonly />
+    </div>
+
+    <!-- Nombre de jours -->
+    <div class="col-md-2">
+      <label class="form-label">Nombre de jours</label>
+      <input type="number" class="form-control" formControlName="nombreJours" min="1" />
+    </div>
+
+    <!-- Sous-total -->
+    <div class="col-md-2">
+      <label class="form-label">Sous-total</label>
+      <div class="input-group">
+        <input type="text" class="form-control" [value]="calculateLineTotal(ligne)" readonly />
+        <span class="input-group-text">FCFA</span>
+      </div>
+    </div>
+
+    <!-- Supprimer -->
+    <div class="col-md-1">
+      <button type="button" class="btn btn-danger w-100" (click)="removeLigne(i)">
+        <i class="fa fa-trash"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <button type="button" class="btn btn-secondary" (click)="addLigne()">
+        <i class="fa fa-plus me-2"></i>Ajouter ligne
+      </button>
+    </div>
+  </div>
+ <div class="row mt-4">
+  <div>
+  <label class="form-label">Montant Total</label>
+          <div class="input-group">
+            <input type="text" class="form-control" 
+                   [value]="getMontantTotal()" readonly />
+            <span class="input-group-text">FCFA</span>
+          </div>
+    </div>
+    <div>
+  <label class="form-label">Montant Remise</label>
+          <div class="input-group">
+            <input type="text" class="form-control" 
+                 formControlName="montantRemise" min="0"  />
+            <span class="input-group-text">FCFA</span>
+          </div>
+    </div>
+    <div>
+  <label class="form-label">Montant Net</label>
+          <div class="input-group">
+            <input type="text" class="form-control" 
+                  type="number"  [value]="mettreAJourMontants()"  readonly />
+            <span class="input-group-text">FCFA</span>
+          </div>
+    </div>
+ </div>
+
+  <div class="row mt-4">
+    <div class="col-md-4 text-center">
+      <button type="submit" class="btn btn-success" [disabled]="!isFormValid()">
+        <i class="fa fa-save me-2"></i>Enregistrer
+      </button>
+    </div>
+    
+    <div class="col-md-4 text-end">
+      <button type="button" class="btn btn-danger" (click)="goToReservationList()">
+        <i class="fa fa-arrow-left me-2"></i>Annuler
+      </button>
+    </div>
+  </div>
+</form>
+  </div>
+    </div>

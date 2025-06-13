@@ -1,0 +1,143 @@
+<div class="row m-3">
+    <div class="col">
+      <div class="row align-items-center justify-content-between my-3">
+        <div class="col-md-6">
+          <h2 class="fw-bold text-primary">
+            <i class="fa fa-cash-register me-2"></i> Liste des ventes
+          </h2>
+        </div>
+  
+        <div class="col-md-6 d-flex justify-content-end gap-2">
+          <button type="button" (click)="reloadPage()" class="btn btn-outline-warning">
+            <i class="fas fa-sync-alt me-1"></i> Actualiser
+          </button>
+  
+          <button type="button" (click)="goToPos()" class="btn btn-primary">
+            <i class="fa fa-plus me-1"></i> Nouvelle vente
+          </button>
+        </div>
+      </div>
+  
+      <div class="row m-3">
+        <div class="col-md-9 d-flex justify-content-md-start">
+          <div class="col-auto pe-2">
+            <label for="inputTableSize" class="col-form-label">Afficher</label>
+          </div>
+          <div class="col-auto">
+            <select style="width: 95px;" class="form-select" (change)="onTableSizeChange($event)">
+              <option *ngFor="let size of tableSizes">{{ size }}</option>
+            </select>
+          </div>
+        </div>
+  
+        <div class="col-md-3 d-flex justify-content-md-end pb-2">
+          <div class="col-auto me-2">
+            <label for="inputSearch" class="col-form-label">Rechercher</label>
+          </div>
+          <div class="col-auto">
+            <input
+              type="search"
+              [(ngModel)]="myFilterText"
+              class="form-control"
+              aria-describedby="searchHelp"
+            />
+          </div>
+        </div>
+  
+        <table class="table table-striped table-bordered table-sm row-border hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Table</th>
+                    <th>Date Vente</th>
+                    <th>Montant Total</th>
+                      <th>Statut</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let vente of ventes | filter: myFilterText | paginate: {
+                    itemsPerPage: tableSize,
+                    currentPage: page,
+                    totalItems: count
+                }; let i = index">
+                    <!-- Ligne principale -->
+                    <tr>
+                        <td>{{ vente.id }}</td>
+                        <td>{{ vente.tableResto }}</td>
+                        <td>{{ vente.dateVente | date:'dd/MM/yyyy' }}</td>
+                        <td>{{ vente.montantTotal | number:'1.2-2' }} FCFA</td>
+                         <td [ngClass]="{
+                            'bg-success text-white fw-bold': vente.etatVente === 'PAYEE',
+                            'bg-danger text-white fw-bold': vente.etatVente === 'NON_PAYEE'
+                                       }">
+                                         {{ vente.etatVente }}
+                        </td>
+                        <td>
+                            <button (click)="toggleDetails(vente)" class="btn btn-sm" 
+                                    [ngClass]="{'btn-info': !vente.showDetails, 'btn-secondary': vente.showDetails}">
+                                <i class="fa fa-{{ vente.showDetails ? 'minus' : 'plus' }} me-1"></i>
+                                {{ vente.showDetails ? 'Masquer' : 'Détails' }}
+                            </button>
+                            <button (click)="updateVente(vente.id)" class="btn btn-warning btn-sm ms-2">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button *ngIf="role === 'ADMIN'" (click)="deleteVente(vente.id)" class="btn btn-danger btn-sm ms-2">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                             <button (click)="generateTicket(vente)" class="btn btn-success btn-sm ms-2" >
+                                           <i class="fa fa-print"></i>   Imprimer
+                             </button>
+                              <button *ngIf="vente.etatVente === 'NON_PAYEE'" 
+                                     (click)="confirmerPaiement(vente)" 
+                                     class="btn btn-success btn-sm ms-2">
+                                   <i class="fa fa-check"></i> Payer
+                              </button>
+                        </td>
+                    </tr>
+
+                    <!-- Ligne des détails - s'affiche directement sous la ligne principale -->
+                    <tr [class.d-none]="!vente.showDetails">
+                        <td colspan="5" class="p-0">
+                            <div class="details-container" [class.show]="vente.showDetails">
+                                <h6 class="px-3 pt-3 mb-3 fw-bold">Détails des articles vendus</h6>
+                                <table class="table table-sm mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%">Article</th>
+                                            <th width="15%">Prix Unitaire</th>
+                                            <th width="15%">Quantité</th>
+                                            <th width="15%">Total</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ligne of vente.ligneVentes">
+                                            <td>{{ligne.article?.designation || 'N/A'}}</td>
+                                            <td>{{ligne.prixUnitaire | number:'1.2-2'}} FCFA</td>
+                                            <td>{{ligne.quantite}}</td>
+                                            <td>{{(ligne.prixUnitaire * ligne.quantite) | number:'1.2-2'}} FCFA</td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+  
+        <div>
+          <pagination-controls
+            class="d-flex justify-content-md-end"
+            previousLabel="Précédent"
+            nextLabel="Suivant"
+            (pageChange)="onTableDataChange($event)"
+          ></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 

@@ -1,0 +1,30 @@
+/* Style pour le conteneur des détails */
+.details-container {
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.details-container.show {
+    max-height: 1000px; /* Ajustez selon le contenu */
+    padding: 0 1rem 1rem 1rem;
+}
+
+/* Style pour les boutons */
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    min-width: 80px;
+}
+
+/* Animation douce pour l'affichage */
+tr[class*="d-none"] {
+    display: none;
+}
+
+/* Bordure pour séparer visuellement les détails */
+.details-container table {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}

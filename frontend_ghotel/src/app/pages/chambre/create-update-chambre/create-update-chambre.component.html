@@ -1,0 +1,108 @@
+<div class="row m-3">
+    <div class="container my-container">
+      <div class="card w-100 mx-auto shadow-lg rounded">
+  
+        <div class="card-header text-center bg-primary text-white">
+          <h3 class="m-0">
+            {{ isEditMode ? 'Modification de la chambre' : 'Enregistrement de la chambre' }}
+          </h3>
+        </div>
+  
+        <form (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-2">
+  
+              <!-- Numéro de chambre -->
+              <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    id="numero"
+                    class="form-control"
+                    [(ngModel)]="chambre.numero" name="numero"
+                    required
+                    placeholder="Numéro">
+                  <label for="numero">Numéro de chambre</label>
+                </div>
+              </div>
+  
+              <!-- Type -->
+              <div class="col">
+                <div class="form-floating">
+                  <select
+                    id="type"
+                    class="form-select"
+                    [(ngModel)]="chambre.type" name="type"
+                    required>
+                    <option value="" disabled selected>Sélectionnez un type</option>
+                    <option value="SIMPLE">Simple</option>
+                    <option value="DOUBLE">Double</option>
+                    <option value="MINI_SUITE">Mini Suite</option>
+                  </select>
+                  <label for="type">Type de chambre</label>
+                </div>
+              </div>
+  
+              <!-- Tarif -->
+              <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="number"
+                    id="tarifParNuit"
+                    class="form-control"
+                    [(ngModel)]="chambre.tarifParNuit" name="tarifParNuit"
+                    required
+                    placeholder="Tarif par nuit">
+                  <label for="tarifParNuit">Tarif par nuit</label>
+                </div>
+              </div>
+  
+              <!-- État -->
+              <div class="col">
+                <div class="form-floating">
+                  <select
+                    id="etat"
+                    class="form-select"
+                    [(ngModel)]="chambre.etat" name="etat"
+                    required>
+                    <option value="" disabled selected>Sélectionnez un état</option>
+                    <option value="DISPONIBLE">Disponible</option>
+                    
+                    <option value="MAINTENANCE">En maintenance</option>
+                  </select>
+                  <label for="etat">État de la chambre</label>
+                </div>
+              </div>
+  
+              <!-- Description -->
+              <div class="col-12">
+                <div class="form-floating">
+                  <textarea
+                    id="description"
+                    class="form-control"
+                    style="height: 100px"
+                    [(ngModel)]="chambre.description" name="description"
+                    placeholder="Description"></textarea>
+                  <label for="description">Description</label>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+          <!-- Boutons -->
+          <div class="card-footer text-center bg-light">
+            <button (click)="goToChambreList()" class="btn btn-danger px-4">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> Retour
+            </button>
+            <button type="submit" class="btn btn-success px-4 m-3">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              {{ isEditMode ? 'Modifier' : 'Enrégistrer' }}
+            </button>
+          </div>
+        </form>
+  
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,108 @@
+<div class="row m-3">
+    <div class="container my-container">
+      <div class="card w-100 mx-auto shadow-lg rounded">
+  
+        <div class="card-header text-center bg-primary text-white">
+          <h3 class="m-0">
+            {{ isEditMode ? 'Modification de la dépense' : 'Enregistrement de la dépense' }}
+          </h3>
+        </div>
+  
+        <form (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-2">
+  
+              <!-- Libellé -->
+              <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    id="libelle"
+                    class="form-control"
+                    [(ngModel)]="depense.libelle" name="libelle"
+                    required
+                    placeholder="Libellé">
+                  <label for="libelle">Libellé</label>
+                </div>
+              </div>
+  
+              <!-- Type de dépense -->
+              <div class="col">
+                <div class="form-floating">
+                  <select
+                    id="categorie"
+                    class="form-select"
+                    [(ngModel)]="depense.categorie" name="categorie"
+                    required>
+                    <option value="" disabled selected>Sélectionnez un type</option>
+                    <option value="ACHAT">Achat</option>
+                    <option value="FACTURE">Facture</option>
+                    <option value="SALAIRE">Salaires</option>
+                    <option value="TRANSPORT">Transport</option>
+                    <option value="ENTRETIEN">Entretien</option>
+                    <option value="AUTRE">Autres</option>
+                  </select>
+                  <label for="categorie">Type de dépense</label>
+                </div>
+              </div>
+
+               <!-- Date -->
+               <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="date"
+                    id="dateDepense"
+                    class="form-control"
+                    [(ngModel)]="depense.dateDepense" name="dateDepense"
+                    required
+                    placeholder="Date">
+                  <label for="dateDepense">Date de la dépense</label>
+                </div>
+              </div>
+              
+               <!-- Montant -->
+               <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="number"
+                    id="montant"
+                    class="form-control"
+                    [(ngModel)]="depense.montant" name="montant"
+                    required
+                    placeholder="Montant">
+                  <label for="montant">Montant (en FCFA)</label>
+                </div>
+              </div>
+  
+              <!-- Description -->
+              <div class="col-12">
+                <div class="form-floating">
+                  <textarea
+                    id="description"
+                    class="form-control"
+                    style="height: 100px"
+                    [(ngModel)]="depense.description" name="description"
+                    placeholder="Description"></textarea>
+                  <label for="description">Description</label>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+          <!-- Boutons -->
+          <div class="card-footer text-center bg-light">
+            <button (click)="goToDepenseList()" class="btn btn-danger px-4" type="button">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> Retour
+            </button>
+            <button type="submit" class="btn btn-success px-4 m-3">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              {{ isEditMode ? 'Modifier' : 'Enrégistrer' }}
+            </button>
+          </div>
+        </form>
+  
+      </div>
+    </div>
+  </div>
+  

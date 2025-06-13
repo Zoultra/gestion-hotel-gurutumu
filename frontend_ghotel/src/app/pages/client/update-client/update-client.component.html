@@ -1,0 +1,48 @@
+<div class="row m-3">
+    <div class="container my-container  ">
+        <div class="card w-100 mx-auto">
+            <div class="card-header text-center">
+                <h3>Mofification du compte</h3>
+            </div>
+            <form  (ngSubmit)="onSubmit()"> 
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="exampleInputEmail1">Nom</label>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" [(ngModel)]="user.nom" name="nom" placeholder="Entrez le nom">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="exampleInputEmail1">Prénom</label>
+                            <input type="text" class="form-control" aria-describedby="emailHelp" [(ngModel)]="user.prenom" name="prenom" placeholder="Entrez le prenom">
+                        </div>
+    
+                        <div class="col-md-4">
+                            <label for="exampleInputEmail1">E-mail</label>
+                            <input type="email" class="form-control" aria-describedby="emailHelp" [(ngModel)]="user.email" name="email" placeholder="Entrez l'email">
+                        </div>
+                       
+                    
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1">Téléphone</label>
+                        <input type="telephone" class="form-control" aria-describedby="emailHelp" [(ngModel)]="user.telephone" name="telephone" placeholder="No de téléphone">
+                    </div>
+                   
+                    <div class="col-md-6">
+                        <label for="exampleInputEmail1">Role</label>
+                        <input type="text" class="form-control" aria-describedby="emailHelp" [(ngModel)]="user.role" name="role" placeholder="Entrez le role">
+                    </div>
+
+                     <div class="mb-3 d-flex justify-content-md-between">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save"></i> Mettre à jour
+                        </button>
+                     </div>
+                   </div>
+                </div>
+
+
+            </form> 
+
+        </div>
+    </div>
+</div>

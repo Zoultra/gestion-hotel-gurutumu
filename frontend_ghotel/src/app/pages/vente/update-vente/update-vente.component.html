@@ -1,0 +1,120 @@
+ <div class="container p-3">
+ <h4 class="mb-4">Modification de vente : {{ venteForm.get('code')?.value }}</h4>
+
+<form [formGroup]="venteForm" (ngSubmit)="submitModification()" class="p-3 border rounded">
+
+  <!-- Informations de base -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label class="form-label">Table</label>
+       <select class="form-select" formControlName="tableResto">
+            <option value="">Sélectionnez un article</option>
+            <option *ngFor="let i of [].constructor(20); let idx = index" [value]="'TABLE ' + (idx + 1)">
+      TABLE {{ idx + 1 }}
+    </option>
+          </select>
+    </div>
+    
+
+    <div class="col-md-4">
+      <label class="form-label">Date Vente</label>
+      <input type="date" class="form-control" formControlName="dateVente"
+             [class.is-invalid]="venteForm.get('dateVente')?.invalid && venteForm.get('dateVente')?.touched" />
+      <div class="invalid-feedback" *ngIf="venteForm.get('dateVente')?.invalid && venteForm.get('dateVente')?.touched">
+        La date de vente est requise
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">État Vente</label>
+      <input type="text" class="form-control" formControlName="etatVente" readonly
+             [class.is-invalid]="venteForm.get('etatVente')?.invalid && venteForm.get('etatVente')?.touched" />
+      <div class="invalid-feedback" *ngIf="venteForm.get('etatVente')?.invalid && venteForm.get('etatVente')?.touched">
+        L'état de la vente est requis
+      </div>
+    </div>
+  </div>
+
+  <!-- Lignes de vente -->
+  <h5 class="mt-4">Lignes de vente</h5>
+  <div formArrayName="lignesVentes">
+    <div *ngFor="let ligne of lignesVentes.controls; let i = index" class="border rounded p-2 mb-2">
+      <div [formGroupName]="i" class="row g-2">
+
+        <div class="col-md-3">
+          <label class="form-label">Article</label>
+          <select class="form-select" formControlName="article_id" (change)="onArticleChange(i)">
+            <option value="">Sélectionnez un article</option>
+            <option *ngFor="let article of articles" [value]="article.id">
+              {{ article.designation }} - {{ article.prixUnitaire }} FCFA
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Prix unitaire</label>
+          <div class="input-group">
+            <input type="number" class="form-control" formControlName="prixUnitaire" readonly />
+            <span class="input-group-text">FCFA</span>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Quantité</label>
+          <input type="number" min="1" class="form-control" formControlName="quantite" />
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label">Sous-total</label>
+          <div class="input-group">
+            <input type="text" class="form-control" [value]="calculateLineTotal(ligne)" readonly />
+            <span class="input-group-text">FCFA</span>
+          </div>
+        </div>
+
+        <div class="col-md-1 d-flex align-items-end">
+          <button type="button" class="btn btn-outline-danger w-100" (click)="removeLigne(i)"
+                  [disabled]="lignesVentes.length <= 1">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ajouter ligne -->
+  <div class="text-start mb-3">
+    <button type="button" class="btn btn-outline-primary" (click)="addLigne()">
+      <i class="fa fa-plus me-2"></i>Ajouter une ligne
+    </button>
+  </div>
+
+  <!-- Montant total -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label class="form-label"><strong>Montant total</strong></label>
+      <div class="input-group">
+        <input type="text" class="form-control" [value]="venteForm.get('montantTotal')?.value" readonly />
+        <span class="input-group-text">FCFA</span>
+      </div>
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end">
+      <button type="button" class="btn btn-primary w-100" (click)="calculerMontantTotal()">
+        <i class="fa fa-calculator me-2"></i>Calculer le montant
+      </button>
+    </div>
+  </div>
+
+  <!-- Boutons d'action -->
+  <div class="mt-4 d-flex justify-content-end gap-2">
+    <button type="button" class="btn btn-secondary" (click)="annulerModification()">
+      <i class="fa fa-times me-1"></i>Annuler
+    </button>
+    <button type="submit" class="btn btn-primary" [disabled]="venteForm.invalid">
+      <i class="fa fa-save me-1"></i>Mettre à jour la vente
+    </button>
+  </div>
+</form>
+
+</div>

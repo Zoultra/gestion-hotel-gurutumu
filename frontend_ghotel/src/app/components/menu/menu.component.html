@@ -1,0 +1,64 @@
+
+
+<div  class="accordion accordion-flush" id="accordionFlushExample">
+    <div class="card" *ngFor="let menu of menuProperties">
+         <ng-container *ngIf="isMenuVisible(menu)">
+        <div class="card-header " id="menu{{menu.id}}">
+            <h2 class="mb-0">
+                <button class="btn btn-block text-left" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapseOne' + menu.id" aria-expanded="false" aria-controls="flush-collapseOne">
+                    <i class="{{menu.icon}}"></i> &nbsp;  {{menu.titre}}
+        </button>
+            </h2>
+        </div>
+        <div id="flush-collapseOne{{menu.id}}" class="accordion-collapse collapse" [attr.aria-labelledby]="'menu' + menu.id" data-bs-parent="#accordionFlushExample">
+
+            <div class="card">
+                <ul class="list-group list-group-flush ms-1">
+                    <li class="list-group-item btn btn-primary text-start w-100 " *ngFor="let sousMenu of menu.sousMenu"> <a (click)="navigate(sousMenu.url)"><i class="{{sousMenu.icon}}"></i> &nbsp;{{sousMenu.titre}}</a></li>
+
+                </ul>
+            </div>
+        </div>
+        </ng-container>
+    </div>
+
+</div>
+
+
+ <!-- VERSION AMELIOREE DU MENU 
+
+<div class="accordion accordion-flush" id="accordionFlushExample">
+  <div class="accordion-item" *ngFor="let menu of menuProperties">
+    <h2 class="accordion-header" [id]="'menu' + menu.id">
+      <button
+        class="accordion-button collapsed d-flex align-items-center"
+        type="button"
+        data-bs-toggle="collapse"
+        [attr.data-bs-target]="'#flush-collapse' + menu.id"
+        aria-expanded="false"
+        [attr.aria-controls]="'flush-collapse' + menu.id">
+        <i [class]="menu.icon" class="me-2"></i> {{ menu.titre }}
+      </button>
+    </h2>
+    <div
+      [id]="'flush-collapse' + menu.id"
+      class="accordion-collapse collapse"
+      [attr.aria-labelledby]="'menu' + menu.id"
+      data-bs-parent="#accordionFlushExample">
+      <div class="accordion-body p-0">
+        <ul class="list-group list-group-flush">
+          <li
+            class="list-group-item list-group-item-action d-flex align-items-center"
+            *ngFor="let sousMenu of menu.sousMenu"
+            (click)="navigate(sousMenu.url)"
+            style="cursor: pointer;">
+            <i [class]="sousMenu.icon" class="me-2"></i> {{ sousMenu.titre }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+-->

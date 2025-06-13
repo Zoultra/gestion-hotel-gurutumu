@@ -1,0 +1,166 @@
+<div class="container mt-4">
+  
+   <div class="row align-items-center justify-content-between my-3">
+            <div class="col-md-6">
+              <h2 class="fw-bold text-primary">
+                <i class="fas fa-user-shield me-2"></i> Gestion des caisses du jour
+              </h2>
+            </div>
+          
+            <div class="col-md-6 d-flex justify-content-end gap-2">
+              <button type="button" (click)="reloadPage()" class="btn btn-outline-warning">
+                <i class="fas fa-sync-alt me-1"></i> Actualiser
+              </button>
+          
+              <button type="button"  (click)="ouvrirCaisse()" class="btn btn-success">
+                <i class="fa fa-plus me-1"></i> Ouvrir une caisse
+              </button>
+            </div>
+          </div>
+ <div class="row m-3">
+           <div class="col-md-9 d-flex justify-content-md-start">
+                <div class="col-auto pe-2">
+                    <label for="inputPassword6" class="col-form-label">Afficher</label>
+                </div>
+                <div class="col-auto">
+                    <select style="width: 95px;" class="form-select" (change)="onTableSizeChange($event)">
+    <option *ngFor="let size of tableSizes">
+           {{size}}
+    </option>
+            </select>
+                </div>
+            </div>
+
+
+            
+            <div class="col-md-3 d-flex justify-content-md-end pb-2">
+                <div class="col-auto me-2">
+                    <label for="inputPassword6" class="col-form-label">Rechercher</label>
+                </div>
+                <div class="col-auto">
+                    <input type="search" [(ngModel)]="myFilterText" class="form-control" aria-describedby="passwordHelpInline">
+                </div>
+            </div>
+
+  <!-- Liste des caisses du jour -->
+  <table class="table table-bordered table-striped">
+    <thead>
+         <tr>
+         <th class="bg-info text-white" colspan="5"><p>Aujourd'hui : {{ aujourdHui | date:'dd/MM/yyyy' }}</p></th>
+        </tr>
+      <tr>
+       <th style="width: 50px;">ID</th>
+         <th>Utilisateur</th>
+        <th>Date Ouverture</th>
+        <th>Date Fermeture</th>
+        <th>Montant Initial</th>
+        <th>Montant Final</th>
+        <th>État</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+         <ng-container *ngFor="let caisse of caisses | filter: myFilterText | paginate:{
+                        itemsPerPage: tableSize,
+                        currentPage: page,
+                        totalItems: count}; let i = index "> 
+
+
+      <tr>
+         <td style="width: 50px;">{{ caisse.caisseId }}</td>
+          <td>{{ caisse.utilisateur.prenom }} {{ caisse.utilisateur.nom }}</td>
+        <td>{{ caisse.date_ouverture }}</td>
+        <td>{{caisse.date_fermeture }}</td>
+        <td>{{ caisse.soldeInitial  }}</td>
+        <td>{{ caisse.soldeFinal }} FCFA</td>
+        <td>
+                <span class="badge bg-success" *ngIf="caisse.ouverte">Ouverte</span>
+                <span class="badge bg-secondary" *ngIf="!caisse.ouverte">Fermée</span>
+        </td>
+        <td>
+             <button (click)="toggleDetails(caisse)" class="btn btn-sm" 
+                                    [ngClass]="{'btn-info': !caisse.showDetails, 'btn-secondary': caisse.showDetails}">
+                                <i class="fa fa-{{ caisse.showDetails ? 'minus' : 'plus' }} me-1"></i>
+                                {{ caisse.showDetails ? 'Masquer' : 'Détails' }}
+                            </button>
+          <button *ngIf="caisse.ouverte" class="btn btn-outline-danger btn-sm"
+                 (click)="ouvrirModalFermeture(caisse)">
+            Fermer 
+          </button>
+        </td>
+      </tr>
+
+      <!-- Ligne des détails - s'affiche directement sous la ligne principale -->
+                    <tr [class.d-none]="!caisse.showDetails">
+                        <td colspan="5" class="p-0">
+                            <div class="row m-1">
+                               <div class="bg-info text-center col-md-6">Heure Ouverture: {{caisse.heureOuverture}}</div>
+                               <div class="bg-danger text-center col-md-6">Heure Fermeture: {{caisse.heureFermeture}}</div>
+                                <div class="bg-success text-center col-md-12 pb-2 pt-2 text-white">Montant final théorique: {{caisse.soldeFinalTheorique}} FCFA</div>
+                            </div>
+                            <div class="details-container" [class.show]="caisse.showDetails">
+                                <h6 class="px-3 pt-3 mb-3 fw-bold">Détails des articles vendus</h6>
+                                <table class="table table-sm mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%">ID</th>
+                                            <th width="15%">Description</th>
+                                            <th width="15%">Type</th>
+                                            <th width="15%">Montant</th>
+                                            <th width="15%">date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let mouvement of caisse.mouvements">
+                                            <td>{{mouvement.id || 'N/A'}}</td>
+                                            <td>{{mouvement.description }} </td>
+                                            <td>{{mouvement.type}}</td>
+                                            <td>{{mouvement.montant  | number:'1.2-2'}} FCFA</td>
+                                            <td>{{mouvement.date }} </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                 </ng-container>   
+    </tbody>
+  </table>
+ <div>
+                <pagination-controls class="d-flex justify-content-md-end" previousLabel="Précédent" nextLabel="Suivant" (pageChange)="onTableDataChange($event)">
+
+                </pagination-controls>
+            </div>
+  </div>
+</div>
+
+
+
+<!-- Modal fermeture de caisse -->
+<div class="modal fade" id="fermetureModal" tabindex="-1" aria-labelledby="fermetureModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form [formGroup]="fermetureForm" (ngSubmit)="fermerCaisse()">
+        <div class="modal-header">
+          <h5 class="modal-title" id="fermetureModalLabel">Fermeture de Caisse</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+
+        <div class="modal-body">
+          <p><strong>Session caisse :</strong> {{ caisseEnCours?.caisseId }}</p>
+
+          <div class="mb-3">
+            <label>Montant final</label>
+            <input type="number" class="form-control" formControlName="soldeFinal" placeholder="Montant final" required  />
+            <input type="hidden" formControlName="caisseId" />
+        </div>
+        </div>
+  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-danger"  >Fermer la caisse</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

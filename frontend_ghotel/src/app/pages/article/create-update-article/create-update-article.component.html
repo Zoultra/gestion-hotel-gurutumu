@@ -1,0 +1,140 @@
+
+     
+      
+<div class="row m-3">
+  <div class="container">
+    <div class="card shadow-lg rounded">
+      <div class="card-header text-center bg-primary text-white">
+        <h3 class="m-0">
+          {{ isEditMode ? 'Modification de l\'article' : 'Enregistrement de l\'article' }}
+        </h3>
+      </div>
+   <!--
+      <form [formGroup]="articleForm" (ngSubmit)="onSubmitData()">
+        <div class="card-body">
+
+         
+          <div class="mb-3">
+            <label for="designation" class="form-label">Nom de l'article</label>
+            <input
+              type="text"
+              id="designation"
+              formControlName="designation"
+              class="form-control"
+              placeholder="Nom de l'article"
+              required />
+          </div>
+
+         
+          <div class="mb-3">
+            <label for="prixUnitaire" class="form-label">Prix Unitaire</label>
+            <input
+              type="number"
+              id="prixUnitaire"
+              formControlName="prixUnitaire"
+              class="form-control"
+              placeholder="Prix unitaire"
+              required />
+          </div>
+
+           Image de l'article 
+          <div class="mb-3">
+            <label for="image" class="form-label">Image de l'article</label>
+            <input
+              type="file"
+              id="image"
+              (change)="onFileChange($event)"
+              accept="image/*"
+              class="form-control"
+              required />
+          </div>-->
+
+           <!-- Aperçu de l'image existante ou nouvelle 
+<div *ngIf="imagePreview || article.imagePath" class="text-center mb-3">
+  <img
+    [src]="imagePreview || 'http://localhost:9201/ghotel-api/articles/images/' + article.imagePath"
+    class="img-thumbnail"
+    style="max-width: 250px; max-height: 200px;" />
+</div>
+
+        </div>
+
+        <div class="card-footer text-center bg-light">
+          <button type="button" (click)="goToArticleList()" class="btn btn-danger px-4">
+            <i class="fa fa-arrow-left"></i> Retour
+          </button>
+          <button type="submit" class="btn btn-success px-4 ms-2">
+            <i class="fa fa-floppy-o"></i>
+            {{ isEditMode ? 'Modifier' : 'Enregistrer' }}
+          </button>
+        </div>
+      </form>
+-->
+
+
+
+
+
+ <form (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-2">
+    
+              
+              <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    id="designation"
+                    class="form-control"
+                    [(ngModel)]="article.designation" name="designation"
+                    required
+                    placeholder="Nom">
+                  <label for="designation">Nom de l'article</label>
+                </div>
+              </div>
+
+    
+              
+              <div class="col">
+                <div class="form-floating">
+                  <input
+                    type="number"
+                    id="prixVente"
+                    class="form-control"
+                    [(ngModel)]="article.prixUnitaire" name="prixVente"
+                    required
+                    placeholder="prixVente">
+                  <label for="prixVente">Prix Unitaire</label>
+                </div>
+              </div>
+
+    
+            </div>
+          </div>
+    
+          
+          <div class="card-footer text-center bg-light">
+            <button (click)="goToArticleList()" class="btn btn-danger px-4">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> Retour
+            </button>
+            <button type="submit" class="btn btn-success px-4 m-3">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>
+              {{ isEditMode ? 'Modifier' : 'Enregistrer' }}
+            </button>
+          </div>
+        </form>
+
+
+       
+    </div>
+  </div>
+</div>
+
+
+     
+       
+   
+ 
+  
+  
+ 

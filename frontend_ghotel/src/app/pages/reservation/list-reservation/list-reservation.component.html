@@ -1,0 +1,235 @@
+<div class="row m-3">
+  <div class="col">
+    <div class="row align-items-center justify-content-between my-3">
+      <div class="col-md-6">
+        <h2 class="fw-bold text-primary">
+          <i class="fa fa-calendar-check me-2"></i> Liste des réservations
+        </h2>
+      </div>
+
+      <div class="col-md-6 d-flex justify-content-end gap-2">
+        <button type="button" (click)="reloadPage()" class="btn btn-outline-warning">
+          <i class="fas fa-sync-alt me-1"></i> Actualiser
+        </button>
+               <button type="button"  (click)="goToAddClientFomRes()" class="btn btn-success">
+                <i class="fa fa-plus me-1"></i> Ajouter un client
+              </button>
+        <button type="button" (click)="goToNewReservation()" class="btn btn-primary">
+          <i class="fa fa-plus me-1"></i> Nouvelle réservation
+        </button>
+      </div>
+    </div>
+
+    <div class="row m-3">
+      <div class="col-md-9 d-flex justify-content-md-start">
+        <div class="col-auto pe-2">
+          <label for="inputTableSize" class="col-form-label">Afficher</label>
+        </div>
+        <div class="col-auto">
+          <select style="width: 95px;" class="form-select" (change)="onTableSizeChange($event)">
+            <option *ngFor="let size of tableSizes">{{ size }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-md-3 d-flex justify-content-md-end pb-2">
+        <div class="col-auto me-2">
+          <label for="inputSearch" class="col-form-label">Rechercher</label>
+        </div>
+        <div class="col-auto">
+          <input
+            type="search"
+            [(ngModel)]="myFilterText"
+            class="form-control"
+            aria-describedby="searchHelp"
+          />
+        </div>
+      </div>
+
+      <table class="table table-striped table-bordered table-sm row-border hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Client</th>
+            <th>Date Début</th>
+            <th>Date Fin</th>
+            
+            <th>Paiements</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let reservation of reservations | filter: myFilterText | paginate: {
+              itemsPerPage: tableSize,
+              currentPage: page,
+              totalItems: count
+            }; let i = index">
+            <!-- Ligne principale -->
+            <tr>
+              <td>{{ reservation.id }}</td>
+              <td>{{ reservation.code }}</td>
+              <td>{{ reservation.client?.nom }} {{ reservation.client?.prenom }}</td>
+              <td>{{ reservation.dateDebut | date:'dd/MM/yyyy' }}</td>
+              <td>{{ reservation.dateFin | date:'dd/MM/yyyy' }}</td>
+               
+              <td>
+                  <button (click)="ouvrirPaiementModal(reservation.facture.id)" class="btn btn-primary btn-sm ms-2">
+                  <i class="fa fa-plus"></i>
+                </button>
+                
+              </td>
+              <td>
+                <button (click)="toggleDetails(reservation)" class="btn btn-sm"
+                  [ngClass]="{'btn-info': !reservation.showDetails, 'btn-secondary': reservation.showDetails}">
+                  <i class="fa fa-{{ reservation.showDetails ? 'minus' : 'plus' }} me-1"></i>
+                  {{ reservation.showDetails ? 'Masquer' : 'Détails' }}
+                </button>
+                <button (click)="updateReservation(reservation.id)" class="btn btn-warning btn-sm ms-2">
+                  <i class="fa fa-edit"></i>
+                </button>
+                <button *ngIf="role === 'ADMIN'" (click)="deleteReservation(reservation.id)" class="btn btn-danger btn-sm ms-2">
+                  <i class="fa fa-trash"></i>
+                </button>
+                
+                 <button (click)="imprimerTicket(reservation)" class="btn btn-success btn-sm ms-2" >
+                                           <i class="fa fa-print"></i>   
+                             </button>
+                   <button (click)="imprimerFacture(reservation)" class="btn btn-success btn-sm ms-2" >
+                                           <i class="fa fa-print"></i>Facture   
+                             </button>
+
+              </td>
+            </tr>
+
+            <!-- Détails -->
+            <tr [class.d-none]="!reservation.showDetails">
+              <td colspan="8" class="p-0">
+
+                 <div class="row m-1">
+                     <h6 class="px-3 mb-3 fw-bold bg-info">factures</h6>
+                   <table class="table table-sm mb-0 border">
+                    <thead>
+                      <tr>
+                        <th>Numero</th>
+                        <th>Date</th>
+                        <th>Montant Total</th>
+                         <th>Montant Remise</th>
+                        <th>Montant Net</th>
+                        <th>Montant Payé</th>
+                        <th>Reste à payer</th>
+                         <th>Paiements</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     <tr  >
+                        <td>{{ reservation.facture.numero }}</td>
+                        <td>{{ reservation.facture.dateFacture }}</td>
+                        <td>{{ reservation.facture.montantTotal | number:'1.2-2' }} FCFA</td>
+                         <td>{{ reservation.facture.montantRemise | number:'1.2-2' }} FCFA</td>
+                       <td>{{ reservation.facture.montantNet | number:'1.2-2' }} FCFA</td>
+                       <td>{{ reservation.facture.montantPaye| number:'1.2-2' }} FCFA</td>
+                       <td>{{ (reservation.facture.resteAPayer) | number:'1.2-2' }} FCFA</td>
+                       <td>
+                        <button (click)="ouvrirListPaiementModal(reservation.facture.id)" class="btn btn-success btn-sm ms-2">
+                                 <i class="fa fa-eye"></i>
+                        </button>
+                        </td>
+                     </tr>
+                    </tbody>
+                  </table> 
+
+                  </div>
+
+                <div class="details-container" [class.show]="reservation.showDetails">
+                 
+                    <h6 class="px-3 mb-3 fw-bold bg-info">Lignes de réservation</h6>
+                
+                  <table class="table table-sm mb-0">
+                    <thead>
+                      <tr>
+                        <th>Type</th>
+                        <th>Nom</th>
+                        <th>Prix Unitaire</th>
+                        <th>Nombre Jours</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     <tr *ngFor="let ligne of reservation.lignes">
+                        <td>{{ ligne.type }}</td>
+                        <td>
+     {{ ligne.type === 'CHAMBRE' ? ligne.chambre?.numero : ligne.salle?.numero || 'N/A' }}
+                       </td>
+                       <td>{{ ligne.prixUnitaire | number:'1.2-2' }} FCFA</td>
+                       <td>{{ ligne.nombreJours }}</td>
+                       <td>{{ (ligne.prixUnitaire * ligne.nombreJours) | number:'1.2-2' }} FCFA</td>
+                     </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+
+      <div>
+        <pagination-controls
+          class="d-flex justify-content-md-end"
+          previousLabel="Précédent"
+          nextLabel="Suivant"
+          (pageChange)="onTableDataChange($event)"
+        ></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="paiementModal" tabindex="-1" aria-labelledby="paiementModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title" id="paiementModalLabel">Liste des paiements</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-sm table-bordered">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Montant</th>
+              <th>Mode</th>
+              <th>Commentaire</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let paiement of paiementsActuels">
+              <td>{{ paiement.datePaiement | date:'dd/MM/yyyy' }}</td>
+              <td>{{ paiement.montant | number:'1.0-0' }} FCFA</td>
+              <td>{{ paiement.modePaiement }}</td>
+              <td>{{ paiement.commentaire }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<app-ajout-paiement-modal
+  #paiementModal
+  [factureId]="factureIdCourante"
+  (paiementAjoute)="onPaiementAjoute($event)">
+</app-ajout-paiement-modal>

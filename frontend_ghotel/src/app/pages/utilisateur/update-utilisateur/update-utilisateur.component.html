@@ -1,0 +1,113 @@
+<div class="row m-3">
+    <div class="container my-container">
+      <div class="card w-100 mx-auto shadow-lg rounded">
+  
+        <div class="card-header text-center bg-primary text-white">
+          <h3 class="m-0">Modifier un utilisateur</h3>
+        </div>
+  
+        <form [formGroup]="utilisateurForm" (ngSubmit)="onSubmit()">
+          <div class="card-body">
+            <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-lg-2">
+  
+              <!-- Nom -->
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="text" 
+                    id="nom" 
+                    class="form-control" 
+                    formControlName="nom" 
+                    
+                    required 
+                    placeholder="Nom">
+                  <label for="nom">Nom</label>
+                </div>
+              </div>
+  
+             
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="text" 
+                    id="prenom" 
+                    class="form-control" 
+                    formControlName="prenom" 
+                    
+                    required 
+                    placeholder="Prénom">
+                  <label for="prenom">Prénom</label>
+                </div>
+              </div>
+  
+              <!-- Email -->
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="email" 
+                    id="email" 
+                    class="form-control" 
+                    formControlName="email" 
+                  
+                    required 
+                    placeholder="Email">
+                  <label for="email">Email</label>
+                </div>
+              </div>
+
+
+                <!-- TEL -->
+              <div class="col">
+                <div class="form-floating">
+                  <input 
+                    type="tel" 
+                    id="telephone" 
+                    class="form-control" 
+                    formControlName="telephone" 
+                  
+                    required 
+                    placeholder="telephone">
+                  <label for="telephone">Téléphone</label>
+                </div>
+              </div>
+  
+              <!-- Rôle -->
+              <div class="col">
+                <div class="form-floating">
+                  <select 
+                    class="form-select" 
+                    id="role" 
+                    formControlName="role" 
+                       required>
+
+                    
+                 
+                  <option *ngFor="let role of roles" [value]="role.id">
+                    {{ role.id }} - {{ role.nomrole }}   
+                  </option>
+
+
+                    
+                  </select>
+                  <label for="role">Rôle</label>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+          <!-- Boutons -->
+          <div class="card-footer text-center bg-light">
+            <button (click)="goToUserList()" class="btn btn-danger px-4">
+              <i class="fa fa-arrow-left" aria-hidden="true"></i> Retour
+            </button>
+            <button [disabled]="utilisateurForm.invalid" type="submit" class="btn btn-success px-4 m-3">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i> Modifier Utilisateur
+            </button>
+          </div>
+        </form>
+  
+      </div>
+    </div>
+  </div>
+  
