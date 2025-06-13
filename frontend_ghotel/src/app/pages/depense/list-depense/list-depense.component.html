@@ -65,7 +65,7 @@
             >
               <td>{{ depense.id }}</td>
               <td class="break-word">{{ depense.libelle }}</td>
-              <td>{{ depense.montant }} F CFA</td>
+             <td>{{ depense.montant | number:'1.0-0' }} F CFA</td>
               <td>{{ depense.categorie }}</td>
               <td>{{ depense.dateDepense  }}</td>
               <td class="break-word">{{ depense.description }}</td>

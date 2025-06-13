@@ -43,6 +43,7 @@ public class VenteController {
         }
         return ResponseEntity.ok(venteService.save(dto));
     }
+    
     @GetMapping
     public List<Vente> getAllVente() {
         return venteService.getVentes();

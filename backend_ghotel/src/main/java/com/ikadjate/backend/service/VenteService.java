@@ -137,7 +137,7 @@ public class VenteService {
     }
 
     public List<Vente> getVentes() {
-        return venteRepository.findAll();
+        return venteRepository.findAllByOrderByCreatedAtDesc();
     }
 
     public Vente getVenteById(Long id) {
@@ -170,7 +170,7 @@ public class VenteService {
    
    
    public List<Vente> getLast50Ventes() {
-	    return venteRepository.findTop50ByOrderByDateVenteDesc();
+	    return venteRepository.findTop10ByOrderByCreatedAtDesc();
 	}
     
    // MISE A JOUR DE LA VENTE
