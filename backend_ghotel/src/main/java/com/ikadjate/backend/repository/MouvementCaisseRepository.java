@@ -73,39 +73,58 @@ public interface MouvementCaisseRepository extends JpaRepository <MouvementCaiss
     	 
     	 @Query("SELECT COALESCE(SUM(m.montant), 0) FROM MouvementCaisse m " +
   		       "WHERE m.type = :type AND m.date >= :start AND m.date <= :end")
-  		   BigDecimal findTotalDepenseByTypeAndDateBetween(
+  		   BigDecimal findTotalDepenseByTypeAndDateBetween2(
   		    @Param("type") TypeMouvement type,
   		    @Param("start") LocalDate  start,
   		    @Param("end") LocalDate  end
   		   );
     	 
-    	 @Query("SELECT COALESCE(SUM(m.montant), 0) FROM MouvementCaisse m " +
-  		       "WHERE m.type = :type AND m.operationType = 'VENTE' AND m.date >= :start AND m.date <= :end")
-  		 BigDecimal findTotalMontantByTypeAndDateBetweenVente(
-  		  //  @Param("operationType") OperationType operationType,
-  		    @Param("type") TypeMouvement type,
-  		    @Param("start") LocalDate  start,
-  		    @Param("end") LocalDate  end
-  				 );
+    	
     	 
-    	 @Query("SELECT COALESCE(SUM(m.montant), 0) FROM MouvementCaisse m " +
-    		       "WHERE m.type = :type AND m.operationType = 'RESERVATION' AND m.date >= :start AND m.date <= :end")
-    		 BigDecimal findTotalMontantByTypeAndDateBetweenReservation(
-    		  //  @Param("operationType") OperationType operationType,
-    		    @Param("type") TypeMouvement type,
-    		    @Param("start") LocalDate  start,
-    		    @Param("end") LocalDate  end
-    				 );
+    	
     	 
-    	 @Query("SELECT m FROM MouvementCaisse m WHERE m.caisse = :caisse AND m.date >= :debut AND m.date <= :fin")
-    	 List<MouvementCaisse> findByCaisseAndDateTimeRange(@Param("caisse") Caisse caisse, @Param("debut") LocalDate debut, @Param("fin") LocalDate fin);
-
-    	 // 
+    	 @Query("SELECT m FROM MouvementCaisse m WHERE m.caisse = :caisse AND m.createdAt >= :debut AND m.createdAt <= :fin")
+    	 List<MouvementCaisse> findByCaisseAndDateTimeRange(@Param("caisse") Caisse caisse, @Param("debut") LocalDateTime debut, @Param("fin") LocalDateTime fin);
+    	
+    	 // ENTRE DATE ET TIME
+    	
     	 @Query("SELECT COALESCE(SUM(m.montant), 0) FROM MouvementCaisse m " +
     		       "WHERE m.type = :type AND m.createdAt BETWEEN :start AND :end")
     		BigDecimal findTotalMontantByTypeAndDateTimeBetween(@Param("type") TypeMouvement type,
     		                                                    @Param("start") LocalDateTime start,
     		                                                    @Param("end") LocalDateTime end);
+    	 
+    	 @Query("SELECT COALESCE(SUM(m.montant), 0) FROM MouvementCaisse m " +
+  		       "WHERE m.type = :type AND m.createdAt BETWEEN :start AND :end")
+  		BigDecimal findTotalDepenseByTypeAndDateTimeBetween(@Param("type") TypeMouvement type,
+  		                                                    @Param("start") LocalDateTime start,
+  		                                                    @Param("end") LocalDateTime end);
+    	 
+    	 @Query("SELECT m FROM MouvementCaisse m " +
+    		       "WHERE m.type = :type AND m.createdAt BETWEEN :start AND :end")
+    		List<MouvementCaisse> findAllByTypeAndCreatedAtBetween(@Param("type") TypeMouvement type,
+    		                                                        @Param("start") LocalDateTime start,
+    		                                                        @Param("end") LocalDateTime end);
+
+    	 
+    	 @Query("SELECT COALESCE(SUM(m.montant), 0) FROM MouvementCaisse m " +
+    		       "WHERE m.type = :type AND m.operationType = 'VENTE' AND m.createdAt >= :start AND m.createdAt <= :end")
+    		 BigDecimal findTotalMontantByTypeAndDateBetweenVente(
+    		  //  @Param("operationType") OperationType operationType,
+    		    @Param("type") TypeMouvement type,
+    		    @Param("start") LocalDateTime  start,
+    		    @Param("end") LocalDateTime  end
+    				 );
+    	 
+    	 
+    	 @Query("SELECT COALESCE(SUM(m.montant), 0) FROM MouvementCaisse m " +
+  		       "WHERE m.type = :type AND m.operationType = 'RESERVATION' AND m.createdAt >= :start AND m.createdAt <= :end")
+  		 BigDecimal findTotalMontantByTypeAndDateBetweenReservation(
+  		  //  @Param("operationType") OperationType operationType,
+  		    @Param("type") TypeMouvement type,
+  		    @Param("start") LocalDateTime  start,
+  		    @Param("end") LocalDateTime  end
+  				 );
 
 
 }

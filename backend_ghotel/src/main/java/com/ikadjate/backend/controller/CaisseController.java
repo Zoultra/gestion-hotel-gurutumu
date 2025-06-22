@@ -2,6 +2,7 @@ package com.ikadjate.backend.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +57,10 @@ public class CaisseController {
 	    
 	    @GetMapping("/operations-journaliere-interval")
 	    public ResponseEntity<List<RecapJournalierDto>> getRecapitulatifEntreDeuxDates(
-	            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-	            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+	            @RequestParam("startDateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime,
+	            @RequestParam("endDateTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateTime) {
 
-	        List<RecapJournalierDto> recap = caisseService.getOperationsEntreDatesIn0703(startDate, endDate);
+	        List<RecapJournalierDto> recap = caisseService.getOperationsEntreDatesIn0703(startDateTime, endDateTime);
 	        return ResponseEntity.ok(recap);
 	    }
 	   
@@ -85,10 +86,15 @@ public class CaisseController {
 	  
 	    
 	    
+	    @GetMapping("/caisse-du-jour1")
+	    public ResponseEntity <List<Caisse>> caisseDuJour() {
+	       
+	        return ResponseEntity.ok(caisseService.getAllCaissesDujour());
+	    }
+	    
 	    @GetMapping("/caisse-du-jour")
-	    public ResponseEntity<RecapDayDto> getRecap() {
-	        LocalDate today = LocalDate.now();
-	        return ResponseEntity.ok(caisseService.getRecapJournalier(today));
+	    public List<Caisse> getCaissesDuJour() {
+	        return caisseService.getAllCaissesDujour();
 	    }
 
 

@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class RecapDayDto {
+	
     private LocalDate date;
     
     private List<CaisseJourDto> caisses;  // <= Assure-toi que ce champ existe

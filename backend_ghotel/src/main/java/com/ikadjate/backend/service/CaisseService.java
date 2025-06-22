@@ -3,6 +3,7 @@ package com.ikadjate.backend.service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -185,6 +186,11 @@ public class CaisseService {
         return caisseRepository.findAll();
     }
     
+    public List<Caisse> getAllCaissesDujour() {
+        return caisseRepository.findAllOuvertesOuFermeesAujourdHui(LocalDate.now());
+    }
+
+    
     
     
     
@@ -334,10 +340,10 @@ public class CaisseService {
     // ENTRE 07 ET 03 
     
     
-    public List<RecapJournalierDto> getOperationsEntreDatesIn0703(LocalDate startDate, LocalDate endDate) {
+    public List<RecapJournalierDto> getOperationsEntreDatesIn0703(LocalDateTime startDate, LocalDateTime endDate) {
     	  // Étape 1 : Convertir les bornes en LocalDateTime
-        LocalDateTime startDateTime = startDate.atTime(7, 0);  // 09/06/2025 07:00
-        LocalDateTime endDateTime = endDate.plusDays(1).atTime(3, 0);  // 11/06/2025 03:00
+     //   LocalDateTime startDateTime = startDate.atTime(7, 0);  // 09/06/2025 07:00
+      //  LocalDateTime endDateTime = endDate.plusDays(1).atTime(3, 0);  // 11/06/2025 03:00
 
         // Étape 2 : Charger toutes les caisses ouvertes ou fermées dans l'intervalle de dates brutes
         List<Caisse> caissesBrutes = caisseRepository.findAll();
@@ -350,7 +356,7 @@ public class CaisseService {
                     ? c.getDateFermeture().atTime(c.getHeureFermeture())
                     : ouverture.plusHours(1); // valeur par défaut si non fermée
 
-                return !ouverture.isAfter(endDateTime) && !fermeture.isBefore(startDateTime);
+                return !ouverture.isAfter(endDate) && !fermeture.isBefore(startDate);
             })
             .collect(Collectors.toList());
 

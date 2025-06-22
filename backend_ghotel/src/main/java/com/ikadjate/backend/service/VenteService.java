@@ -145,7 +145,7 @@ public class VenteService {
             .orElseThrow(() -> new RuntimeException("Vente introuvable"));
     }
     
-   
+ 
    public void supprimerVente(Long id) {
 	    Vente vente = venteRepository.findById(id)
 	        .orElseThrow(() -> new RuntimeException("Vente introuvable"));
