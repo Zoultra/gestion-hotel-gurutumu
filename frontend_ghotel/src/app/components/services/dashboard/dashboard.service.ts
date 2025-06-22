@@ -48,12 +48,12 @@ export class DashboardService {
      });
    }
 
-    getTotalDepenses(dates: { startDate: string, endDate: string }): Observable<any> {
-       const { startDate, endDate } = dates;
+    getTotalDepenses(dates: { startDateTime: string, endDateTime: string }): Observable<any> {
+       const { startDateTime, endDateTime } = dates;
        return this.http.get(`${this.apiURL}/total-depenses`, {
        params: {
-                  startDate,
-                  endDate
+                  startDateTime,
+                  endDateTime
                 }
      });
    }
@@ -63,19 +63,19 @@ export class DashboardService {
     return this.http.get<number>(`${this.apiURL}/solde`);
    }
 
-  getTotalEntreeResto(dates: { startDate: string, endDate: string }): Observable<number> {
-  const { startDate, endDate } = dates;
+  getTotalEntreeResto(dates: { startDateTime: string, endDateTime: string }): Observable<number> {
+  const { startDateTime, endDateTime } = dates;
   return this.http.get<number>(`${this.apiURL}/total-entrees-resto`, {
-    params: { startDate, endDate }
+    params: { startDateTime, endDateTime }
   });
 }
 
-    getTotalEntreeReservation(dates: { startDate: string, endDate: string }): Observable<any> {
-       const { startDate, endDate } = dates;
+    getTotalEntreeReservation(dates: { startDateTime: string, endDateTime: string }): Observable<any> {
+       const { startDateTime, endDateTime } = dates;
        return this.http.get(`${this.apiURL}/total-entrees-reservation`, {
        params: {
-                  startDate,
-                  endDate
+                  startDateTime,
+                  endDateTime
                 }
      });
    }

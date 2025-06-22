@@ -67,10 +67,10 @@
 
 
       <tr>
-         <td style="width: 50px;">{{ caisse.caisseId }}</td>
+         <td style="width: 50px;">{{ caisse.id }}</td>
           <td>{{ caisse.utilisateur.prenom }} {{ caisse.utilisateur.nom }}</td>
-        <td>{{ caisse.date_ouverture }}</td>
-        <td>{{caisse.date_fermeture }}</td>
+        <td>{{ caisse.dateOuverture }}</td>
+        <td>{{caisse.dateFermeture }}</td>
         <td>{{ caisse.soldeInitial  }}</td>
         <td>{{ caisse.soldeFinal }} FCFA</td>
         <td>
@@ -99,12 +99,13 @@
                                 <div class="bg-success text-center col-md-12 pb-2 pt-2 text-white">Montant final théorique: {{caisse.soldeFinalTheorique}} FCFA</div>
                             </div>
                             <div class="details-container" [class.show]="caisse.showDetails">
-                                <h6 class="px-3 pt-3 mb-3 fw-bold">Détails des articles vendus</h6>
+                                <h6 class="px-3 pt-3 mb-3 fw-bold">Détails des mouvements de caisse</h6>
                                 <table class="table table-sm mb-0">
                                     <thead>
                                         <tr>
-                                            <th width="40%">ID</th>
-                                            <th width="15%">Description</th>
+                                            <th width="10%">ID</th>
+                                            <th width="15%">Utilisateur</th>
+                                            <th width="30%">Description</th>
                                             <th width="15%">Type</th>
                                             <th width="15%">Montant</th>
                                             <th width="15%">date</th>
@@ -113,12 +114,14 @@
                                     <tbody>
                                         <tr *ngFor="let mouvement of caisse.mouvements">
                                             <td>{{mouvement.id || 'N/A'}}</td>
+                                             <td>{{mouvement.utilisateur.prenom}} {{mouvement.utilisateur.nom}}</td>
                                             <td>{{mouvement.description }} </td>
                                             <td>{{mouvement.type}}</td>
                                             <td>{{mouvement.montant  | number:'1.2-2'}} FCFA</td>
                                             <td>{{mouvement.date }} </td>
                                         </tr>
                                     </tbody>
+
                                 </table>
                             </div>
                         </td>

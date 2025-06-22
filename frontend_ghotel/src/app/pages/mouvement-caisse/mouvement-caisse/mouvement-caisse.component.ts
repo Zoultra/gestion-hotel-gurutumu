@@ -47,6 +47,11 @@ listeRecaps: any[] = [];
 
     ngOnInit(): void {
 
+       const today = new Date();
+  
+       this.dateDebut = new Date(today.setHours(0, 0, 0, 0)).toISOString(); // début de journée
+       this.dateFin = new Date().toISOString(); // maintenant
+
      this.chargerRecap()
     
   }
@@ -67,8 +72,26 @@ listeRecaps: any[] = [];
   
 
     chargerRecapInterval() {
+
     if (this.dateDebut && this.dateFin) {
-      this.mouvementCaisseService.getRecapitulatifEntreDates(this.dateDebut, this.dateFin).subscribe({
+
+    const startRaw = this.dateDebut;
+    const endRaw = this.dateFin;
+
+    const startDate = new Date(startRaw);
+    const endDate = new Date(endRaw);
+
+    const startDateTime = startDate.toISOString();
+    const endDateTime = endDate.toISOString();
+
+     if (startDateTime === endDateTime) {
+      console.warn('Les deux dates sont identiques. Recherche annulée.');
+      this.alerteService.error("La date de début et de fin ne doivent pas être identiques.");
+     // alert('La date de début et de fin ne doivent pas être identiques.');
+      return; // On sort sans appeler le backend
+     }
+
+      this.mouvementCaisseService.getRecapitulatifEntreDates({startDateTime,endDateTime}).subscribe({
         
         next: data =>  console.log( this.recapList = data),
         error: () =>  this.alerteService.error('Aucune Donée pour les dates selectionnées!'),

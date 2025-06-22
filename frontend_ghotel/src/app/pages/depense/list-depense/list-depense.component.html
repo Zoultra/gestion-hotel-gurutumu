@@ -18,6 +18,22 @@
         </div>
       </div>
   
+      <div class="card mb-4" [formGroup]="filterForm" >
+         <div class="card-body row g-2">
+           <div class="col-md-4">
+           <label>Date de début</label>
+           <input type="datetime-local" class="form-control"  formControlName="startDate"   >
+        </div>
+    <div class="col-md-4">
+      <label>Date de fin</label>
+      <input type="datetime-local" class="form-control"  formControlName="endDate" >
+    </div>
+      <div class="col-md-4 align-self-end">
+      <button class="btn btn-primary w-100" (click)="loadDepensesData()" >Charger les données</button>
+      </div>
+     </div>
+  </div>
+
       <div class="row m-3">
         <div class="col-md-9 d-flex justify-content-md-start">
           <div class="col-auto pe-2">
@@ -78,7 +94,13 @@
                 </button>
               </td>
             </tr>
+            <tr class="text-center">
+              <th class="bg-success p-2 text-white" colspan="7">
+                  <p>Total des dépenses : {{ totalDepenses | number:'1.0-0' }} F CFA</p>
+              </th>
+            </tr>
           </tbody>
+          
         </table>
   
         <div>
@@ -93,3 +115,4 @@
     </div>
   </div>
   
+ 

@@ -31,4 +31,12 @@ export class DepenseService {
   deleteDepense(id: number): Observable<any> {
     return this.http.delete(`${this.apiURL}/${id}`);
   }
+
+  getListDepensesEtTotal(dates: { startDateTime: string, endDateTime: string }): Observable<{ liste: any[], montantTotal: number }> {
+  const { startDateTime, endDateTime } = dates;
+  return this.http.get<{ liste: any[], montantTotal: number }>(`${this.apiURL}/list-depenses-montant-interval`, {
+    params: { startDate: startDateTime, endDate: endDateTime }
+  });
+}
+
 }
