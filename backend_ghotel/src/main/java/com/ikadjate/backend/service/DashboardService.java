@@ -57,9 +57,15 @@ public class DashboardService {
 	}
 	
 	
-	public BigDecimal calculerTotalDepenseParIntervalle(LocalDate startDate, LocalDate endDate) {
+	//public BigDecimal calculerTotalDepenseParIntervalle(LocalDateTime startDate, LocalDate endDate) {
 		   
-	    return mouvementCaisseRepository.findTotalDepenseByTypeAndDateBetween(TypeMouvement.SORTIE, startDate, endDate);
+	  //  return mouvementCaisseRepository.findTotalDepenseByTypeAndDateBetween(TypeMouvement.SORTIE, startDate, endDate);
+	//}
+	
+
+	public BigDecimal calculerTotalDepenseParIntervalle(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+		   
+	    return mouvementCaisseRepository.findTotalDepenseByTypeAndDateTimeBetween(TypeMouvement.SORTIE, startDateTime, endDateTime);
 	}
 	
 	 public BigDecimal getSolde() {
@@ -79,14 +85,14 @@ public class DashboardService {
 	            return  soldeFinalEnCaisse;
 	    }
 	 
-	 public BigDecimal calculerTotalMontantVenteByInterval(LocalDate startDate, LocalDate endDate) {
+	 public BigDecimal calculerTotalMontantVenteByInterval (LocalDateTime startDateTime, LocalDateTime endDateTime) {
 		   
-		    return mouvementCaisseRepository.findTotalMontantByTypeAndDateBetweenVente(TypeMouvement.ENTREE, startDate, endDate);
+		    return mouvementCaisseRepository.findTotalMontantByTypeAndDateBetweenVente(TypeMouvement.ENTREE, startDateTime, endDateTime);
 		}
 	 
-	 public BigDecimal calculerTotalMontantReservationByInterval(LocalDate startDate, LocalDate endDate) {
+	 public BigDecimal calculerTotalMontantReservationByInterval (LocalDateTime startDateTime, LocalDateTime endDateTime) {
 		   
-		    return mouvementCaisseRepository.findTotalMontantByTypeAndDateBetweenReservation(TypeMouvement.ENTREE, startDate, endDate);
+		    return mouvementCaisseRepository.findTotalMontantByTypeAndDateBetweenReservation(TypeMouvement.ENTREE, startDateTime, endDateTime);
 		}
 
 }

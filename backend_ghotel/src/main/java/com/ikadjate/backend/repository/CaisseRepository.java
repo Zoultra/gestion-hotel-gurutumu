@@ -36,7 +36,9 @@ public interface CaisseRepository extends JpaRepository<Caisse, Long> {
     	    @Param("endDate") LocalDate endDate
     	);
     
-    
+    @Query("SELECT c FROM Caisse c WHERE c.dateOuverture = :today OR c.dateFermeture = :today")
+    List<Caisse> findAllOuvertesOuFermeesAujourdHui(@Param("today") LocalDate today);
+
     
     
 }

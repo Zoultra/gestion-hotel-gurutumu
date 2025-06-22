@@ -70,10 +70,13 @@ public class DashboardController {
 	
 	@GetMapping("/total-depenses")
 	public ResponseEntity<BigDecimal> getTotalDepense(
-	        @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-	        @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+	        @RequestParam("startDateTime") 
+	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime,
+	        
+	        @RequestParam("endDateTime") 
+	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateTime) {
 
-	    BigDecimal total = dashboardService.calculerTotalDepenseParIntervalle(startDate, endDate);
+	    BigDecimal total = dashboardService.calculerTotalDepenseParIntervalle(startDateTime, endDateTime);
 	    return ResponseEntity.ok(total);
 	}
 	
@@ -85,19 +88,28 @@ public class DashboardController {
 	
 	@GetMapping("/total-entrees-resto")
 	public ResponseEntity<BigDecimal> getTotalEntreeResto(
-	        @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-	        @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+			 @RequestParam("startDateTime") 
+		        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime,
+		        
+		        @RequestParam("endDateTime") 
+		        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateTime
+		        ) {
 
-	    BigDecimal total = dashboardService.calculerTotalMontantVenteByInterval(startDate, endDate);
+	    BigDecimal total = dashboardService.calculerTotalMontantVenteByInterval(startDateTime, endDateTime);
 	    return ResponseEntity.ok(total);
 	}
 	
 	@GetMapping("/total-entrees-reservation")
 	public ResponseEntity<BigDecimal> getTotalEntreeReservation(
-	        @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-	        @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+			    @RequestParam("startDateTime") 
+		        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDateTime,
+		        
+		        @RequestParam("endDateTime") 
+		        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDateTime 
+			
+			) {
 
-	    BigDecimal total = dashboardService.calculerTotalMontantReservationByInterval(startDate, endDate);
+	    BigDecimal total = dashboardService.calculerTotalMontantReservationByInterval(startDateTime, endDateTime);
 	    return ResponseEntity.ok(total);
 	}
 	
