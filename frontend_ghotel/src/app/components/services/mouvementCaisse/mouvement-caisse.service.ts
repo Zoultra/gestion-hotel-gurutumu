@@ -38,12 +38,16 @@ fermerCaisse(payload: { caisseId: number, soldeFinal: number }) {
   });
 }
 
-getRecapitulatifEntreDates(startDate: string, endDate: string): Observable<RecapJournalierDto[]> {
-    const params = new HttpParams()
-      .set('startDate', startDate)
-      .set('endDate', endDate);
-
-    return this.http.get<RecapJournalierDto[]>(`${this.apiURL}/operations-journaliere-interval`, { params });
+getRecapitulatifEntreDates(dates: { startDateTime: string, endDateTime: string }): Observable<RecapJournalierDto[]> {
+    const { startDateTime, endDateTime } = dates;
+    console.log('Recherche entre :', dates);
+    return this.http.get<RecapJournalierDto[]>(`${this.apiURL}/operations-journaliere-interval`, 
+      {  params: {
+                  startDateTime,
+                  endDateTime
+                } });
   }
+
+   
 
 }

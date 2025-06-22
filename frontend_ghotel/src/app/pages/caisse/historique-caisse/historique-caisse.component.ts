@@ -85,8 +85,8 @@ this.getListCaisse();
   }
 }
 
-
- fermerCaisse() {
+fermerCaisse() {
+  this.alertService.confirmFermetureCaisse('Confirmation du montant',this.fermetureForm.value.soldeFinal,() => { 
   if (this.fermetureForm.invalid) return;
 
   const data = this.fermetureForm.value;
@@ -95,11 +95,10 @@ this.getListCaisse();
   // Appel au backend
   this.mouvementCaisseService.fermerCaisse(data).subscribe({
 
-
     next: (res) => {
       
       console.log('Caisse fermée avec succès', res);
-      this.alertService.confirmSuccess('Caisse fermée avec succès', 3000)
+       this.alertService.confirmSuccess('Caisse fermée avec succès', 3000)
       // Ferme le modal après succès
       const modalElement = document.getElementById('fermetureModal');
       if (modalElement) bootstrap.Modal.getInstance(modalElement)?.hide();
@@ -110,8 +109,8 @@ this.getListCaisse();
       console.error('Erreur lors de la fermeture :', err);
     }
   });
+})
 }
-
   // Méthode pour basculer l'affichage des détails
   toggleDetails(caisse: Caisse): void {
     caisse.showDetails = !caisse.showDetails;

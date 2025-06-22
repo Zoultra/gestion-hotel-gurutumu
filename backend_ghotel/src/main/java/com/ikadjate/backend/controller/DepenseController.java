@@ -18,8 +18,8 @@ public class DepenseController {
     private final DepenseService depenseService;
 
     @GetMapping
-    public ResponseEntity<List<Depense>> getAllDepenses() {
-        return ResponseEntity.ok(depenseService.getAllDepenses());
+    public ResponseEntity<List<Depense>> getAllDepensesDesc() {
+        return ResponseEntity.ok(depenseService.getAllDepensesDesc());
     }
 
     @GetMapping("/{id}")

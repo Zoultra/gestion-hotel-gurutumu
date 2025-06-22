@@ -38,6 +38,8 @@ constructor( private dashboardService: DashboardService, private fb: FormBuilder
   totalEntreeReservation: number | null = null;
 
  ngOnInit(): void {
+
+  
   this.dashboardService.getNombreChambresDispo().subscribe({
     next: (data) => this.nombreChambresDispo = data,
     error: (err) => console.error('Erreur chargement nombre chambres', err)
@@ -58,12 +60,20 @@ constructor( private dashboardService: DashboardService, private fb: FormBuilder
     error: (err) => console.error('Erreur chargement nombre salles', err)
   });
 
-const today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    const now = new Date();
 
-this.filterForm = this.fb.group({
-  startDate: [today],
-  endDate: [today]
-});
+  const startOfDay = new Date(now);
+  startOfDay.setHours(0, 0, 0, 0); // 00:00
+
+  const isoStart = startOfDay.toISOString().slice(0, 16); // yyyy-MM-ddTHH:mm
+  const isoEnd = now.toISOString().slice(0, 16);           // heure actuelle
+
+  this.filterForm = this.fb.group({
+    startDate: [isoStart],
+    endDate: [isoEnd]
+  });
+ 
+  
 
  this.loadAllsData()
  
@@ -124,10 +134,7 @@ this.filterForm = this.fb.group({
   const startRaw = this.filterForm.value.startDate;
   const endRaw = this.filterForm.value.endDate;
 
-  if (!startRaw || !endRaw) {
-    alert("Veuillez sélectionner une plage de dates.");
-    return;
-  }
+ 
 
   const startDate = new Date(startRaw);
   const endDate = new Date(endRaw);
@@ -140,6 +147,10 @@ this.filterForm = this.fb.group({
   const startDateTime = startDate.toISOString();
   const endDateTime = endDate.toISOString();
 
+ if (!startDateTime || !endDateTime) {
+    alert("Veuillez sélectionner une plage de dates.");
+    return;
+  }
   this.dashboardService.getTotalEntrees({ startDateTime, endDateTime })
     .subscribe({
       next: (res) => {
@@ -153,14 +164,23 @@ this.filterForm = this.fb.group({
 
 
    loadTotalDepenses(): void {
-    const start = this.filterForm.value.startDate;
-    const end = this.filterForm.value.endDate;
-    console.log('Recherche entre :', start, 'et', end);
+
+    const startRaw = this.filterForm.value.startDate;
+    const endRaw = this.filterForm.value.endDate;
+
+    const startDate = new Date(startRaw);
+    const endDate = new Date(endRaw);
+
+    const startDateTime = startDate.toISOString();
+    const endDateTime = endDate.toISOString();
+
+    console.log('Recherche entre DEPENSES :', startDateTime, 'et', endDateTime);
     
-    this.dashboardService.getTotalDepenses(this.filterForm.value)
+    this.dashboardService.getTotalDepenses({ startDateTime, endDateTime })
       .subscribe({
         next: (res) => {
                          this.totalDepenses = res;
+                         console.log('TOTAL DEPENSES : ', this.totalDepenses)
                          this.calculerBenefice();
                       },
         error: (err) => console.error('Erreur lors du chargement des entrées', err)
@@ -189,12 +209,18 @@ this.filterForm = this.fb.group({
       }
 
   loadTotalEntreeResto(): void {
-    const start = this.filterForm.value.startDate;
-    const end = this.filterForm.value.endDate;
-    console.log('Recherche entre :', start, 'et', end);
-    
-      console.log('POUR RESTO',this.filterForm.value)
-    this.dashboardService.getTotalEntreeResto(this.filterForm.value)
+   const startRaw = this.filterForm.value.startDate;
+    const endRaw = this.filterForm.value.endDate;
+
+    const startDate = new Date(startRaw);
+    const endDate = new Date(endRaw);
+
+    const startDateTime = startDate.toISOString();
+    const endDateTime = endDate.toISOString();
+
+    console.log('Recherche entre RESTO :', startDateTime, 'et', endDateTime);
+
+    this.dashboardService.getTotalEntreeResto({ startDateTime, endDateTime })
       .subscribe({
         next: (res) => {
                          this.totalEntreeResto = res;
@@ -206,11 +232,18 @@ this.filterForm = this.fb.group({
   }
 
   loadTotalEntreeReservation(): void {
-    const start = this.filterForm.value.startDate;
-    const end = this.filterForm.value.endDate;
-    console.log('Recherche entre :', start, 'et', end);
+   const startRaw = this.filterForm.value.startDate;
+    const endRaw = this.filterForm.value.endDate;
+
+    const startDate = new Date(startRaw);
+    const endDate = new Date(endRaw);
+
+    const startDateTime = startDate.toISOString();
+    const endDateTime = endDate.toISOString();
+
+    console.log('Recherche entre RESERVATION :', startDateTime, 'et', endDateTime);
     
-    this.dashboardService.getTotalEntreeReservation(this.filterForm.value)
+    this.dashboardService.getTotalEntreeReservation({ startDateTime, endDateTime })
       .subscribe({
         next: (res) => {
                          this.totalEntreeReservation = res;

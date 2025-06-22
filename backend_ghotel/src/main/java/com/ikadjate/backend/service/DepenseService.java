@@ -31,6 +31,10 @@ public class DepenseService {
     public List<Depense> getAllDepenses() {
         return depenseRepository.findAll();
     }
+    
+    public List<Depense> getAllDepensesDesc() {
+        return depenseRepository.findAllByOrderByCreatedAtDesc();
+    }
 
     public Depense getDepenseById(Long id) {
         return depenseRepository.findById(id)

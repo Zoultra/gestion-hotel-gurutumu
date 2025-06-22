@@ -110,7 +110,7 @@ export class GestionCaisseComponent {
       next: (response: any) => {
         console.log('Données reçues :', response); // 🔍 Vérifier la structure dans la console
         if (response) {
-          this.caisses = response.caisses; // ✅ Extraire `data`
+          this.caisses = response; // ✅ Extraire `data`
         }
       },
       error: (err) => {

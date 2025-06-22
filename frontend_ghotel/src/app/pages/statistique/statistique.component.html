@@ -32,7 +32,7 @@
             <div class="card text-white bg-primary mb-4">
               <div class="card-body">
                 <h5 class="card-title">Revenus Reservation</h5>
-                <p class="card-text">Total: {{ totalEntreeReservation }}</p>  <!-- Afficher le nombre de chambres disponibles -->
+                <p class="card-text">Total: {{ totalEntreeReservation ?? 0 | number:'1.0-0' }}</p>  <!-- Afficher le nombre de chambres disponibles -->
                 
               </div>
             </div>
@@ -41,7 +41,7 @@
             <div class="card text-white bg-warning mb-4">
               <div class="card-body">
                 <h5 class="card-title">Revenus Restaurant</h5>
-                <p class="card-text">Total: {{  totalEntreeResto}}</p>  <!-- Afficher le nombre de chambres disponibles -->
+                <p class="card-text">Total: {{  totalEntreeResto ?? 0 | number:'1.0-0' }}</p>  <!-- Afficher le nombre de chambres disponibles -->
                
               </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="card text-white bg-success mb-4">
               <div class="card-body">
                 <h5 class="card-title">Solde en Caisse</h5>
-                <p class="card-text">{{ soldeReel }} FCFA</p> 
+                <p class="card-text">{{ soldeReel ?? 0 | number:'1.0-0' }} FCFA</p> 
               </div>
             </div>
           </div>
@@ -67,7 +67,7 @@
             <div class="card text-white bg-primary mb-4">
               <div class="card-body">
                 <h5 class="card-title">Total Entrée</h5>
-                      <p class="card-text"> {{ totalEntrees }} FCFA</p>
+                      <p class="card-text"> {{ totalEntrees ?? 0 | number:'1.0-0'  }} FCFA</p>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@
             <div class="card text-white bg-warning mb-4">
               <div class="card-body">
                 <h5 class="card-title">Dépenses</h5>
-                <p class="card-text">Total : {{ totalDepenses }}</p>
+                <p class="card-text">Total : {{ totalDepenses ?? 0 | number:'1.0-0'  }}</p>
               </div>
             </div>
           </div>
@@ -84,7 +84,7 @@
             <div class="card text-white bg-success mb-4">
               <div class="card-body">
                 <h5 class="card-title">Benefice</h5>
-                <p class="card-text"> {{ benefice }} </p>  <!-- Afficher le nombre de réservations effectuées aujourd'hui -->
+                <p class="card-text"> {{ benefice ?? 0 | number:'1.0-0' }} </p>  <!-- Afficher le nombre de réservations effectuées aujourd'hui -->
               </div>
             </div>
           </div>
